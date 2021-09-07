@@ -1,14 +1,14 @@
-.linkLogout:hover{
-
-    text-decoration: none;
-    color: gray;
-  }
-  .linkLogout{
-    color: white;
-    margin-right: 20px;
-  }
-
-  /* Login style */
+*{
+  box-sizing: border-box;
+}
+.linkLogout:hover {
+  text-decoration: none;
+  color: gray;
+}
+.linkLogout {
+  color: white;
+  margin-right: 20px;
+}
 .login {
   border: 1px solid #000;
   position: absolute;
@@ -17,8 +17,8 @@
   transform: translate(-50%, -50%);
   min-width: 340px;
 }
-.login-btn{
-  background-color:#429790 ;
+.login-btn {
+  background-color: #429790;
   color: #fff;
   border: none;
 }
@@ -40,22 +40,18 @@
   min-width: 340px;
 }
 
-/* .priceText{
+.priceText {
   padding: 3px;
   background-color: orange;
   color: white;
   border-radius: 3px;
   font-weight: 800;
 }
-
-.disInput{
-  position: relative;
+.vegetable__section {
+  display: flex;
 }
-.disInput::before{
-content: "";
-position: absolute;
-width: 100%;
-height: 100%;
-background-color: red;
+.inputFilter{
+  margin-right: 15px;
+}
 
-} */
+

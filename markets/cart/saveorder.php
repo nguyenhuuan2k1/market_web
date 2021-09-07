@@ -1,39 +1,48 @@
-<?php 
+<?php
     session_start();
     include('../connection.php');
     include('../class/vegetable.php');
     include('../class/order.php');
+    $vegetable = new Vegetable($conn);
 
-    $vegetable = new Vegetable();
+    if (!isset($_SESSION['fullname'])) //kiểm tra đăng nhập
+    {
+        header('location:./index.php?errLogin');
+    }else{
+    //lấy các SESSION 
     $cusId= $_SESSION['id'];
     $total = $_POST['total'];
-    $note = $_POST['note'];
-
-    $order = new Order();
+    $note= $_POST['note'];
+    //tạo hóa đơn mới
+    $order = new Order($conn);
     $order->cusID = $cusId;
     $order->total = $total;
     $order->note = $note;
     $order->date = date('Y-m-d H:i:s');
+    //gán giá trị cho $order
 
-    $listDetail = [];
-    foreach ($_SESSION['listVegeId'] as $key => $item) {
-        $vegetableItem = $vegetable->getByID($conn, $item->id);
+    $listDetails =[];//tạo danh sách chi tiết hóa đơn 
+    foreach ($_SESSION['listVegeId'] as $key => $item) 
+    {
+        $vegetableItem = $vegetable->getByID( $item->id);
         $price = $vegetableItem['Price'];
         $amount = $item->amount;
         $id = $item->id;
-
+        //tạo chi tiết mới
         $orderDetail = new Orderdetail();
         $orderDetail->vegeID = $id;
         $orderDetail->quantity = $amount;
         $orderDetail->price = $price;
 
-        array_push($listDetail,$orderDetail);
+        array_push($listDetails,$orderDetail);
     }
-    if ($order->addOrder($order,$listDetail,$conn)){
-        $_SESSION['listVegeId']=[];
+    if ($order->addOrder($order,$listDetails)) {//thêm order và orderdetail vào database
+        $_SESSION['listVegeId']=[];//làm mới lại giỏ hàng
+        
         header('location:./index.php?billStatus=1');
-
-    } else {
+    }else{
         header('location:./index.php?billStatus=0');
     }
+}
 ?>
+    
